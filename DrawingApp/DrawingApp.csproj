@@ -26,7 +26,6 @@
   <ItemGroup>
     <Resource Include="Resources\background.png" />
     <Resource Include="Resources\Brush.png" />
-    <Resource Include="Resources\ColorPicker.png" />
     <Resource Include="Resources\cursor.png" />
     <Resource Include="Resources\eraser.png" />
     <Resource Include="Resources\eye-dropper.png" />
