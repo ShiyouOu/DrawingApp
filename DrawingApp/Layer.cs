@@ -174,7 +174,7 @@ namespace DrawingApp
                 {
                     continue;
                 }
-                if (index >= 0)
+                if (index >= 0 && index + 3 < Pixels.Length)
                 {
                     ignoreList.Add(index);
                     System.Windows.Media.Color finalColor;
@@ -191,16 +191,13 @@ namespace DrawingApp
         // Save the bitmap as a png
         public void SaveBitmap(string path)
         {
-            if (path != null)
+            if (path != string.Empty && BMap !=null)
             {
-                if (path != string.Empty)
+                using (FileStream fs = new FileStream(path, FileMode.Create))
                 {
-                    using (FileStream fs = new FileStream(path, FileMode.Create))
-                    {
-                        PngBitmapEncoder encoder = new PngBitmapEncoder();
-                        encoder.Frames.Add(BitmapFrame.Create(BMap));
-                        encoder.Save(fs);
-                    }
+                    PngBitmapEncoder encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(BMap));
+                    encoder.Save(fs);
                 }
             }
         }

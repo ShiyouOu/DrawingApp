@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="277*"/>
                 <ColumnDefinition Width="95*"/>
             </Grid.ColumnDefinitions>
-            <TabControl x:Name="MainTabControl" Margin="0,0,0,1" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Grid.Column="1" Grid.Row="1">
+            <TabControl x:Name="MainTabControl" Margin="0,0,0,1" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Grid.Column="1" Grid.Row="1" SelectionChanged="MainTabControl_SelectionChanged">
                 <TabControl.Background>
                     <ImageBrush  Stretch="UniformToFill" ImageSource="/Resources/Untitled-3.png" TileMode="None">
                         <ImageBrush.RelativeTransform>
@@ -46,7 +46,7 @@
             </TabControl>
             <Image x:Name="ZoomIn" Height="39" Margin="0,414,0,0" VerticalAlignment="Top" Width="36" Source="/Resources/ZoomIn.png" Stretch="Fill" MouseDown="ZoomIn_MouseDown" HorizontalAlignment="Center" Grid.Row="1"/>
             <Image x:Name="ZoomOut" Height="39" Margin="0,465,0,0" VerticalAlignment="Top" Width="36" Source="/Resources/ZoomOut.png" Stretch="Fill" MouseDown="ZoomOut_MouseDown" HorizontalAlignment="Center" Grid.Row="1"/>
-            <TextBlock x:Name="DebugConsole" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="55" Width="831" Background="#FF020111" Foreground="#FFFFF8ED" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Column="1" Grid.Row="2" FontSize="7"/>
+            <TextBlock x:Name="DebugConsole" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="55" Width="831" Background="#FF020111" Foreground="#FFFFF8ED" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Column="1" Grid.Row="2" FontSize="7" TextAlignment="Center"/>
             <Image x:Name="Eraser" Height="39" Margin="0,146,0,0" VerticalAlignment="Top" Width="36" Source="/Resources/eraser.png" Stretch="Fill" MouseDown="Tool_Selected" HorizontalAlignment="Center" Grid.Row="1"/>
             <Image x:Name="Brush" Height="39" Margin="0,93,0,0" VerticalAlignment="Top" Width="36" Source="/Resources/Brush.png" Stretch="Fill" MouseDown="Tool_Selected" HorizontalAlignment="Right" Grid.Row="1"/>
             <Image x:Name="Pointer" Height="36" Margin="0,41,0,0" VerticalAlignment="Top" Width="36" Source="/Resources/cursor.png" Stretch="Fill" MouseDown="Tool_Selected" HorizontalAlignment="Center" Grid.Row="1"/>

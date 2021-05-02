@@ -88,13 +88,13 @@ namespace DrawingApp
         {
             activeView = aView;
             MainTabControl.SelectedItem = aView.tab;
+            Reference_Image.Source = aView.activeLayer.BMap;
         }
 
         // Make aLayer the active Layer for the current View/Tab
         private void SetActiveLayer(Layer aLayer)
         {
             activeView.activeLayer = aLayer;
-            Reference_Image.Source = aLayer.BMap;
         }
 
         // Opening a File
@@ -106,18 +106,25 @@ namespace DrawingApp
             Nullable<bool> openedFile = fd.ShowDialog();
 
             // Open the Image file as a WriteableBitmap to allow us to make changes to it
-            if (fd.FileName != null)
+            try
             {
-                WriteableBitmap wrBmp = new WriteableBitmap(new BitmapImage(new Uri(fd.FileName)));
-                if (openedFile == true)
+                if (fd.FileName != string.Empty)
                 {
-                    View currTab = NewTab();
-                    currTab.SetHeader(fd.FileName);
-                    currTab.AddLayer(wrBmp);
-                    SetActiveView(currTab);
-                    SetActiveLayer(currTab.layers[0]);
-                    DPrint("done");
+                    WriteableBitmap wrBmp = new WriteableBitmap(new BitmapImage(new Uri(fd.FileName)));
+                    if (openedFile == true)
+                    {
+                        View currTab = NewTab();
+                        currTab.SetHeader(fd.FileName);
+                        currTab.AddLayer(wrBmp);
+                        SetActiveView(currTab);
+                        SetActiveLayer(currTab.layers[0]);
+                        DPrint("done");
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                DPrint(ex.ToString());
             }
         }
 
@@ -127,6 +134,7 @@ namespace DrawingApp
         {
             View newView = new View();
             Tool_Selected(Brush, null);
+            views.Add(newView);
             MainTabControl.Items.Add(newView.tab);
             return newView;
         }
@@ -178,7 +186,10 @@ namespace DrawingApp
             // Only .png and .jpg files allowed as of right now
             fd.Filter = "Image files (*.png)|*.png";
             fd.ShowDialog();
-            activeView.activeLayer.SaveBitmap(fd.FileName);
+            if (fd.FileName != string.Empty && activeView != null)
+            {
+                activeView.activeLayer.SaveBitmap(fd.FileName);
+            }
         }
 
         // Make sure the brush size is an integer
@@ -238,6 +249,18 @@ namespace DrawingApp
             SetActiveView(currTab);
             SetActiveLayer(currTab.layers[0]);
             DPrint("done");
+        }
+
+        private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Source is TabControl)
+            {
+                if (MainTabControl.SelectedIndex != -1)
+                {
+                    SetActiveView(views[MainTabControl.SelectedIndex]);
+                    Tool_Selected(Brush, null);
+                }
+            }
         }
     }
 }
