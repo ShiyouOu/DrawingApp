@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="background.png" />
+    <None Remove="Brush.png" />
+    <None Remove="ColorPicker.png" />
+    <None Remove="cursor.png" />
+    <None Remove="eraser.png" />
+    <None Remove="eye-dropper.png" />
+    <None Remove="TransparentBackground.jpg" />
+    <None Remove="Untitled-3.png" />
+    <None Remove="ZoomIn.png" />
+    <None Remove="ZoomOut.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\background.png" />
+    <Resource Include="Resources\Brush.png" />
+    <Resource Include="Resources\ColorPicker.png" />
+    <Resource Include="Resources\cursor.png" />
+    <Resource Include="Resources\eraser.png" />
+    <Resource Include="Resources\eye-dropper.png" />
+    <Resource Include="Resources\TransparentBackground.jpg" />
+    <Resource Include="Resources\Untitled-3.png" />
+    <Resource Include="Resources\ZoomIn.png" />
+    <Resource Include="Resources\ZoomOut.png" />
+  </ItemGroup>
+
+</Project>
