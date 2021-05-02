@@ -9,7 +9,9 @@ You can also go to File>Open to open a .jpg or .png file as a WriteableBitmap.
 <br />
 <br />
 You can zoom by Ctrl+MouseScroll
+<br />
 You can select a brush color by clicking a color in the color picker or using the eyedropper tool on the canvas.
+<br />
 You draw by selecting the brush tool and pressing and holding your mouse across the canvas.
 <br />
 <br />
