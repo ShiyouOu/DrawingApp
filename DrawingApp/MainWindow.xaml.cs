@@ -65,10 +65,10 @@ namespace DrawingApp
 
         private void UpdateToolSettings()
         {
-            activeView.brushSize = int.Parse(Brush_Size.Text);
-            activeView.opacity = (int)Color_Opacity.Value;
-            activeView.blendMode = (string)Blend_Mode.SelectedValue;
-            BrushColorViewer.Fill = new SolidColorBrush(activeView.brushColor);
+            activeView.BrushSize = int.Parse(Brush_Size.Text);
+            activeView.Opacity = (int)Color_Opacity.Value;
+            activeView.BlendMode = (string)Blend_Mode.SelectedValue;
+            BrushColorViewer.Fill = new SolidColorBrush(activeView.BrushColor);
         }
 
         // For testing purposes
@@ -88,13 +88,7 @@ namespace DrawingApp
         {
             activeView = aView;
             MainTabControl.SelectedItem = aView.tab;
-            Reference_Image.Source = aView.activeLayer.BMap;
-        }
-
-        // Make aLayer the active Layer for the current View/Tab
-        private void SetActiveLayer(Layer aLayer)
-        {
-            activeView.activeLayer = aLayer;
+            Reference_Image.Source = aView.ActiveLayer.BMap;
         }
 
         // Opening a File
@@ -117,7 +111,7 @@ namespace DrawingApp
                         currTab.SetHeader(fd.FileName);
                         currTab.AddLayer(wrBmp);
                         SetActiveView(currTab);
-                        SetActiveLayer(currTab.layers[0]);
+                        activeView.SetActiveLayer(0);
                         DPrint("done");
                     }
                 }
@@ -188,7 +182,7 @@ namespace DrawingApp
             fd.ShowDialog();
             if (fd.FileName != string.Empty && activeView != null)
             {
-                activeView.activeLayer.SaveBitmap(fd.FileName);
+                activeView.ActiveLayer.SaveBitmap(fd.FileName);
             }
         }
 
@@ -214,7 +208,7 @@ namespace DrawingApp
                 // Convert from System.Drawing.Color to System.Windows.Media.Color
                 System.Drawing.Color tempColor = b.GetPixel(x, y);
                 System.Windows.Media.Color selectedColor = System.Windows.Media.Color.FromArgb(255, tempColor.R, tempColor.G, tempColor.B);
-                activeView.brushColor = selectedColor;
+                activeView.BrushColor = selectedColor;
             }
         }
 
@@ -247,7 +241,7 @@ namespace DrawingApp
             currTab.SetHeader("New");
             currTab.AddLayer(wrBmp);
             SetActiveView(currTab);
-            SetActiveLayer(currTab.layers[0]);
+            activeView.SetActiveLayer(0);
             DPrint("done");
         }
 

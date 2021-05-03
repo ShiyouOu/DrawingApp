@@ -13,9 +13,9 @@ namespace DrawingApp
     class Layer
     {
         public readonly System.Windows.Controls.Image img = new Image();
+        public readonly WriteableBitmap BMap;
         private byte[] Pixels;
         private int bpr;
-        public readonly WriteableBitmap BMap;
         private List<int> ignoreList = new List<int>();
 
         // Get a pixel's value.

@@ -13,23 +13,59 @@ namespace DrawingApp
 {
     class View
     {
-        public TabItem tab = new TabItem();
-        public ScrollViewer sView = new ScrollViewer();
-        public Viewbox vBox = new Viewbox();
-        public List<Layer> layers = new List<Layer>();
-        public Layer activeLayer;
-        public String CurrentTool = "Brush";
-        public System.Windows.Point prevMLocation;
+        public readonly TabItem tab = new TabItem();
+        private List<Layer> layers = new List<Layer>();
+        private ScrollViewer sView = new ScrollViewer();
+        private Viewbox vBox = new Viewbox();
+        private System.Windows.Point prevMLocation;
 
-        public int brushSize = 25;
-        public int opacity = 255;
-        public string blendMode = "Normal";
-        public System.Windows.Media.Color brushColor = System.Windows.Media.Color.FromArgb(255, 255, 255, 255);
+        private Layer _activeLayer;
+        private string _currentTool = "Brush";
+        private int _brushSize;
+        private int _opacity = 255;
+        private string _blendMode = "Normal";
+        private System.Windows.Media.Color _brushColor = System.Windows.Media.Color.FromArgb(255, 255, 255, 255);
 
         // Transform Group Info for adding Zoom functionality to the Viewbox
         ScaleTransform trZoom = new ScaleTransform(1, 1);
         TranslateTransform trTransform = new TranslateTransform(1, 1);
         TransformGroup TGrp = new TransformGroup();
+
+        public int BrushSize{
+            get { return _brushSize; }
+            set { _brushSize = value; }
+        }
+
+        public int Opacity
+        {
+            get { return _opacity; }
+            set { 
+                if(value >= 0 && value <= 255)
+                {
+                    _opacity = value;
+                }
+            }
+        }
+        public string BlendMode
+        {
+            get { return _blendMode; }
+            set { _blendMode = value; }
+        }
+        public System.Windows.Media.Color BrushColor
+        {
+            get { return _brushColor; }
+            set { _brushColor = value; }
+        }
+        public string CurrentTool
+        {
+            get { return _currentTool; }
+            set { _currentTool = value; }
+        }
+        public Layer ActiveLayer
+        {
+            get { return _activeLayer; }
+            set { _activeLayer = value; }
+        }
 
         // Constructor
         public View()
@@ -76,30 +112,30 @@ namespace DrawingApp
                 System.Windows.Point mPos = GetMouseLocation();
                 if (mPos != null)
                 {
-                    mPos = activeLayer.ToBmpLocation(mPos, (int)vBox.Width, (int)vBox.Height);
+                    mPos = ActiveLayer.ToBmpLocation(mPos, (int)vBox.Width, (int)vBox.Height);
                     if (mPos != prevMLocation)
                     {
                         prevMLocation = mPos;
                         if (CurrentTool == "Brush")
                         {
-                            activeLayer.Draw(mPos, brushSize, blendMode, System.Windows.Media.Color.FromArgb((byte)opacity, brushColor.R, brushColor.G, brushColor.B));
+                            ActiveLayer.Draw(mPos, BrushSize, BlendMode, System.Windows.Media.Color.FromArgb((byte)Opacity, BrushColor.R, BrushColor.G, BrushColor.B));
                         }
                         else if (CurrentTool == "Eraser")
                         {
-                            activeLayer.Draw(mPos, brushSize, CurrentTool, System.Windows.Media.Color.FromArgb((byte)opacity, brushColor.R, brushColor.G, brushColor.B));
+                            ActiveLayer.Draw(mPos, BrushSize, CurrentTool, System.Windows.Media.Color.FromArgb((byte)Opacity, BrushColor.R, BrushColor.G, BrushColor.B));
                         }
                         else if (CurrentTool == "EyeDropper")
                         {
                             // Change brush color to the color under the cursor
-                            System.Windows.Media.Color tempColor = activeLayer.GetPixelColor((int)mPos.X, (int)mPos.Y);
-                            brushColor = System.Windows.Media.Color.FromArgb(255, tempColor.R, tempColor.G, tempColor.B);
+                            System.Windows.Media.Color tempColor = ActiveLayer.GetPixelColor((int)mPos.X, (int)mPos.Y);
+                            BrushColor = System.Windows.Media.Color.FromArgb(255, tempColor.R, tempColor.G, tempColor.B);
                         }
                     }
                 }
             }
             else if (e.LeftButton == MouseButtonState.Released)
             {
-                activeLayer.NewPass();
+                ActiveLayer.NewPass();
             }
         }
 
@@ -125,7 +161,7 @@ namespace DrawingApp
         public void AddLayer(WriteableBitmap wrBmp)
         {
             Layer newLayer = new Layer(wrBmp);
-            activeLayer = newLayer;
+            ActiveLayer = newLayer;
             layers.Add(newLayer);
             vBox.Child = newLayer.img;
             vBox.Width = wrBmp.Width;
@@ -143,6 +179,12 @@ namespace DrawingApp
         {
             System.Windows.Point mPos = Mouse.GetPosition(vBox);
             return mPos;
+        }
+
+        // Make aLayer the active Layer for the current View/Tab
+        public void SetActiveLayer(int layerNum)
+        {
+            ActiveLayer = layers[layerNum];
         }
     }
 }
